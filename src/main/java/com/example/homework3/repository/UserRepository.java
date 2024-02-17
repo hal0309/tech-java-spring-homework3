@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserRepository extends Repository<User, Integer> {
 
     @Query(value = "SELECT * FROM user_table")
-    List<User> getAll();
+    List<User> findAll();
 
     @Modifying
     @Query(value = "INSERT INTO user_table(name, age) VALUES(:name, :age)")
