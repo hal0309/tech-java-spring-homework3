@@ -15,7 +15,7 @@ public class RamenController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @GetMapping("/findALl")
+    @GetMapping("/findAll")
     public List<Map<String, Object>> findAll(){
         String sql = "SELECT * FROM ramen_table";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
