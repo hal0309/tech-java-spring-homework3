@@ -15,7 +15,6 @@ public class RamenController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     @GetMapping("/getRamen")
     public List<Map<String, Object>> getRamen(){
         String sql = "SELECT * FROM ramen_table";

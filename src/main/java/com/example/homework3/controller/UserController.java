@@ -1,5 +1,6 @@
 package com.example.homework3.controller;
 
+import com.example.homework3.model.Ramen;
 import com.example.homework3.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

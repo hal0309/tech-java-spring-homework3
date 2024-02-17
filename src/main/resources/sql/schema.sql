@@ -1,5 +1,3 @@
---DROP TABLE IF EXISTS user_table,ramen_table;
-
 CREATE TABLE IF NOT EXISTS user_table
 (
     id INT NOT NULL AUTO_INCREMENT,
