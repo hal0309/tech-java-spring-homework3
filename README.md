@@ -2,6 +2,51 @@
 
 SpringBoot と SQL を使って、データベースを操作する演習です。
 
+## 2024年2月18日 課題
+
+### 1. 現状確認
+
+`*Controller`内部のエンドポイントの名前を少し変えました。
+Postmanを使って、`User`の取得と追加ができるか確認してください。
+
+※gradleを追記したのでsyncする必要があります。
+
+### 2. Repositoryの実装
+
+`user_table`を操作するための`UserRepository`を作成しておきました。
+参考にしつつ、`ramen_table`テーブルを操作するための`RamenRepository`を作成してください。
+
+### 3. Serviceの実装
+
+`UserService`と`UserServiceImpl`を作成しておきました。
+参考にしつつ、`RamenService`と`RamenServiceImpl`を作成してください。
+
+### 4. Controllerのリファクタリング
+
+`RamenController`を、serviceを使って`ramen_table`を操作できるようにリファクタリングしてください。
+
+### 5. 機能追加
+
+現状、各種Controllerには、`insert`と`findAll`の機能しかありません。
+
+これに追加して様々な機能を追加しましょう。以下2つを必須としますが、他にも1つ以上自身で考えて実装してください。
+
+* `find`  
+  `id`を指定して、entityを取得する機能
+
+
+* `delete`  
+  `id`を指定して、entityを削除する機能
+
+
+
+
+
+
+
+
+
+
 ## 2024年2月11日 課題
 
 ### 1. 初期設定
