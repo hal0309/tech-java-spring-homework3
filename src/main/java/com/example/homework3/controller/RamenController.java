@@ -1,31 +1,44 @@
 package com.example.homework3.controller;
 
 import com.example.homework3.entity.Ramen;
+import com.example.homework3.service.RamenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("ramen")
 public class RamenController {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private RamenService ramenService;
+
+    @GetMapping("/findById/{id}")
+    public List<Ramen> findById(@PathVariable int id){
+        return ramenService.findById(id);
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public String deleteById(@PathVariable int id) {
+        ramenService.deleteById(id);
+        return "delete success";
+    }
+
+    @PutMapping("/update/{id}")
+    public String update(@PathVariable int id, @RequestBody Ramen ramen){
+        ramenService.update(id, ramen);
+        return "update success";
+    }
 
     @GetMapping("/findAll")
-    public List<Map<String, Object>> findAll(){
-        String sql = "SELECT * FROM ramen_table";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
-        return list;
+    public List<Ramen> findAll(){
+        return ramenService.findAll();
     }
 
     @PostMapping("/insert")
     public String insert(@RequestBody Ramen ramen){
-        String sql = "INSERT INTO ramen_table(name, price, place) VALUES('"+ ramen.getName() +"', "+ramen.getPrice()+", '"+ramen.getPlace()+"')";
-        jdbcTemplate.update(sql);
+        ramenService.insert(ramen);
         return "insert success";
     }
 }
