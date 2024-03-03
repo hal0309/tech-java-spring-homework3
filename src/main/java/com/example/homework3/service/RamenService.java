@@ -10,7 +10,7 @@ public interface RamenService {
 
     public void deleteById(int id);
 
-    public void update(int id, Ramen Ramen);
+    public void update(Ramen ramen);
 
     public List<Ramen> findAll();
 

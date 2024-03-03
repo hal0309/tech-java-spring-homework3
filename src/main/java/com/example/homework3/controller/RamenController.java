@@ -27,7 +27,8 @@ public class RamenController {
 
     @PutMapping("/update/{id}")
     public String update(@PathVariable int id, @RequestBody Ramen ramen){
-        ramenService.update(id, ramen);
+        Ramen newRamen= ramen.withId(id);
+        ramenService.update(newRamen);
         return "update success";
     }
 

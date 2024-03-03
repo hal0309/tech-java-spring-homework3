@@ -24,8 +24,8 @@ public class RamenServiceImpl implements RamenService {
     }
 
     @Override
-    public void update(int id, Ramen ramen){
-        ramenRepository.update(id,ramen.getName(), ramen.getPrice(), ramen.getPlace());
+    public void update(Ramen ramen){
+        ramenRepository.update(ramen.getId() ,ramen.getName(), ramen.getPrice(), ramen.getPlace());
     }
 
     @Override

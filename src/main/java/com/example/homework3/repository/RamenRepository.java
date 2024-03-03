@@ -36,5 +36,4 @@ public interface RamenRepository extends Repository<Ramen, Integer> {
             @Param("price") int price,
             @Param("place") String place
     );
-
 }
