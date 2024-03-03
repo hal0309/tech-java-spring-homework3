@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface UserRepository extends Repository<User, Integer> {
 
+    @Query(value = "SELECT * FROM user_table WHERE id = :id")
+    User find(@Param("id") int id);
+
     @Query(value = "SELECT * FROM user_table")
     List<User> findAll();
 
@@ -19,4 +22,8 @@ public interface UserRepository extends Repository<User, Integer> {
             @Param("name") String name,
             @Param("age") int age
     );
+
+    @Modifying
+    @Query(value = "DELETE FROM user_table WHERE id = :id")
+    void delete(@Param("id") int id);
 }

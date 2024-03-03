@@ -14,6 +14,11 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
+    public User find(int id) {
+        return userRepository.find(id);
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -21,5 +26,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void insert(User user) {
         userRepository.insert(user.getName(), user.getAge());
+    }
+
+    @Override
+    public void delete(int id) {
+        userRepository.delete(id);
     }
 }

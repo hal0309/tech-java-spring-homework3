@@ -2,6 +2,139 @@
 
 SpringBoot と SQL を使って、データベースを操作する演習です。
 
+
+## 2024年3月3日 課題
+今週は内部結合・外部結合をマスターします。ただし、javaは使いません。
+
+### 1.事前準備
+shellから適当なユーザでmysqlにログインし、データベース`homework3_join`を作成したのち、
+3つのテーブル、`user`、`ramen`、`place`を作成してください。
+その際、プロパティが以下のようになるようにしてください。
+
+~~~
+mysql> show tables;
++--------------------------+
+| Tables_in_homework3_join |
++--------------------------+
+| place                    |
+| ramen                    |
+| user                     |
++--------------------------+
+~~~
+~~~
+mysql> show columns from user;
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| id                | int          | NO   | PRI | NULL    | auto_increment |
+| name              | varchar(100) | YES  |     | NULL    |                |
+| age               | int          | YES  |     | NULL    |                |
+| favorite_ramen_id | int          | YES  |     | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+~~~
+~~~
+mysql> show columns from ramen;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int          | NO   | PRI | NULL    | auto_increment |
+| shop_name | varchar(100) | YES  |     | NULL    |                |
+| price     | int          | YES  |     | NULL    |                |
+| place_id  | int          | YES  |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+~~~
+~~~
+mysql> show columns from place;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int          | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(100) | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+~~~
+
+
+
+### 2.レコードの追加
+以下のようにレコードを追加してください。
+
+
+
+~~~
+INSERT INTO user(name, age, favorite_ramen_id) VALUES
+    ("Yamada", 24, 1),
+    ("Takeshi", 35, 3),
+    ("Suzuki", 18, 2),
+    ("Tanaka", 29, 4),
+    ("Sato", 22, 1),
+    ("Nakamura", 31, 3),
+    ("Kobayashi", 27, 2),
+    ("Kato", 20, 4),
+    ("Watanabe", 33, 1),
+    ("Ito", 26, 3);
+~~~
+
+~~~
+INSERT INTO ramen(shop_name, price, place_id) VALUES
+    ("Iekei", 800, 1),
+    ("Ziroukei", 900, 2),
+    ("Tonkotsu", 850, 3);
+~~~
+
+~~~
+INSERT INTO place(name) VALUES
+    ("Yokohama"),
+    ("Mita"),
+    ("Hukuoka");
+~~~
+
+
+### 3. 結合(1段階)
+
+以下は、`user`テーブルと`ramen`テーブルの内部結合とその結果です。
+
+~~~
+mysql> select * from user join ramen on user.favorite_ramen_id = ramen.id;
++----+-----------+------+-------------------+----+-----------+-------+----------+
+| id | name      | age  | favorite_ramen_id | id | shop_name | price | place_id |
++----+-----------+------+-------------------+----+-----------+-------+----------+
+|  1 | Yamada    |   24 |                 1 |  1 | Iekei     |   800 |        1 |
+|  2 | Takeshi   |   35 |                 3 |  3 | Tonkotsu  |   850 |        3 |
+|  3 | Suzuki    |   18 |                 2 |  2 | Ziroukei  |   900 |        2 |
+|  5 | Sato      |   22 |                 1 |  1 | Iekei     |   800 |        1 |
+|  6 | Nakamura  |   31 |                 3 |  3 | Tonkotsu  |   850 |        3 |
+|  7 | Kobayashi |   27 |                 2 |  2 | Ziroukei  |   900 |        2 |
+|  9 | Watanabe  |   33 |                 1 |  1 | Iekei     |   800 |        1 |
+| 10 | Ito       |   26 |                 3 |  3 | Tonkotsu  |   850 |        3 |
++----+-----------+------+-------------------+----+-----------+-------+----------+
+~~~
+
+これは、`user`の`favorite_ramen_id`をもとに、`id`が一致する`ramen`を取得しています。
+
+内部結合の特性上、`ramen`が取得できない`user`は表示されません。
+これでは困るので、`ramen`の有無に関わらず全ての`user`を取得するために他の結合方法を行ってください。
+
+その際に使用したSQL文とその結果を、`RESULT.md`の**課題1**の枠に添付してください。
+
+
+### 4. 結合(2段階)
+
+上記では、`user`と`ramen`を結び付けた。次はそれに加えて、`ramen`の`place_id`と`place`の`id`を結びつけつ事で、
+`user`と`ramen`と`place`の3つのテーブルが繋がった状態にしてください。
+
+その際に使用したSQL文とその結果を、`RESULT.md`の**課題2**の枠に添付してください。
+
+
+### 5. 整形
+
+上記の結果では、恐らく重複した名称や不必要な情報が見られる。そのため以下の対策を行ってください。
+- `favorite_ramen_id`と`ramen`の`id`は同じ情報なので、片方削除
+- `place_id`とplace`の`id`は同じ情報なので、片方削除
+- `name`というカラム名が重複しているので、`place`の`name`を`place_name`に変更
+
+上記の対策を行ったSQL文とその結果を、`RESULT.md`の**課題3**の枠に添付してください。
+
+
 ## 2024年2月18日 課題
 
 ### 1. 現状確認
