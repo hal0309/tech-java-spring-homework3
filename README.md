@@ -2,13 +2,78 @@
 
 SpringBoot と SQL を使って、データベースを操作する演習です。
 
+## 2024年3月17日 課題
+今回はSpringBoot上で内部結合を行いデータを取得します。
+
+### 0. 今回の課題について
+今回は最終的に以下の要件が満たされていれば良いです。
+* `ramen_table`が`place`の代わりに`place_id`を持つ
+* `place_table`が存在し、`id`と`name`を持つ
+* APIで`ramen_table`に対してinsertする際は、`placeId`を指定する
+* APIで`ramen_table`に対するfindAllを実行した際は、`placeId`ではなく`placeName`を取得する(外部結合により`place_table`の該当する`name`を取得する)
+
+それが満たされれば以下の説明は読まなくてOKです。
+
+### 1. 現状確認
+今回は、DBの構造が前回少し変わっています。そのため、`schema.sql`にも変更を加えました。
+`schema.sql`の内部はtableが存在する状態だと実行されないので、一度手動でテーブルを削除した上で課題を始めてください。  
+(課題の中で、自身でschemaを編集することがあると思いますが、その際も手動でテーブルを削除することを忘れないように気を付けてください。)
+
+
+まず、`UserRequest`クラスを見てください。これは、**DBに対してリクエストを行う為のEntity**です。
+代表的な処理としては、insertです。insertする際は、`name`、`age`、`favoriteRamenId`を指定します。
+
+次に、`UserResponse`クラスを見てください。これは、**DBからのレスポンスを受け取る為のEntity**です。
+代表的な処理としてはfindAllです。findAllした際は、`id`、`name`、`age`、`favoriteRamenName`(結合により`ramen_table`から`favoriteRamenId`と一致したカラムの`name`を持ってきます)を受け取ります。
+
+今回はこのように、DBからのレスポンスを受け取る際は結合によりプロパティが増えるため、RequestとResponseでEntityを2種類用意しました。
+
+### 2. テーブルの構造見直し
+現状、`ramen_table`は以下のように場所を文字列で保持しています。
+~~~
+private final String place;
+~~~
+これを、以下のように`place_id`という数値で保持し、`place_table`という別のテーブルの`id`と結びつけるようにしてください。
+~~~
+private final int placeId;
+~~~
+
+それを実現するために、`ramen_table`の構造を変更してください。  
+その際、`place_table`を作成し、`id`と`name`を持つようにしてください。  
+また、`place_table`に対してのエンドポイント(Controller等)は作成しないで良いのですが、何も中身が無いので自身で適当にデータを追加してください。
+
+また、それらの変更に伴い、`schema.sql`も更新してください。
+
+
+### 3. APIの構造見直し
+まず、RequestとResponseでプロパティが異なるため、それぞれのEntityを作成し、
+ソースコード内で、作成した2種類のEntityを使い分けましょう。
+
+そのために、`Repository`や`Service`、`Controller`をリファクタリングする必要があると思います。
+`User`に対しての例を参考に実装してみましょう。
+
+最終的にpostmanでramenの`findAll`を叩くと、以下のようなレスポンスが返ってくるようになるはずです。
+~~~
+[
+    {
+        "id": 1,
+        "name": "Iekei",
+        "price": 700,
+        "place": "Yokohama"
+    },
+    ...
+]
+~~~
+
+
+
 
 ## 2024年3月3日 課題
 今週は内部結合・外部結合をマスターします。ただし、javaは使いません。
 
 ### 1.事前準備
 shellから適当なユーザでmysqlにログインし、データベース`homework3_join`を作成したのち、
-3つのテーブル、`user`、`ramen`、`place`を作成してください。
+3つのテーブル、`userRequest`、`ramen`、`place`を作成してください。
 その際、プロパティが以下のようになるようにしてください。
 
 ~~~
@@ -18,11 +83,11 @@ mysql> show tables;
 +--------------------------+
 | place                    |
 | ramen                    |
-| user                     |
+| userRequest                     |
 +--------------------------+
 ~~~
 ~~~
-mysql> show columns from user;
+mysql> show columns from userRequest;
 +-------------------+--------------+------+-----+---------+----------------+
 | Field             | Type         | Null | Key | Default | Extra          |
 +-------------------+--------------+------+-----+---------+----------------+
@@ -61,7 +126,7 @@ mysql> show columns from place;
 
 
 ~~~
-INSERT INTO user(name, age, favorite_ramen_id) VALUES
+INSERT INTO userRequest(name, age, favorite_ramen_id) VALUES
     ("Yamada", 24, 1),
     ("Takeshi", 35, 3),
     ("Suzuki", 18, 2),
@@ -91,10 +156,10 @@ INSERT INTO place(name) VALUES
 
 ### 3. 結合(1段階)
 
-以下は、`user`テーブルと`ramen`テーブルの内部結合とその結果です。
+以下は、`userRequest`テーブルと`ramen`テーブルの内部結合とその結果です。
 
 ~~~
-mysql> select * from user join ramen on user.favorite_ramen_id = ramen.id;
+mysql> select * from userRequest join ramen on userRequest.favorite_ramen_id = ramen.id;
 +----+-----------+------+-------------------+----+-----------+-------+----------+
 | id | name      | age  | favorite_ramen_id | id | shop_name | price | place_id |
 +----+-----------+------+-------------------+----+-----------+-------+----------+
@@ -109,18 +174,18 @@ mysql> select * from user join ramen on user.favorite_ramen_id = ramen.id;
 +----+-----------+------+-------------------+----+-----------+-------+----------+
 ~~~
 
-これは、`user`の`favorite_ramen_id`をもとに、`id`が一致する`ramen`を取得しています。
+これは、`userRequest`の`favorite_ramen_id`をもとに、`id`が一致する`ramen`を取得しています。
 
-内部結合の特性上、`ramen`が取得できない`user`は表示されません。
-これでは困るので、`ramen`の有無に関わらず全ての`user`を取得するために他の結合方法を行ってください。
+内部結合の特性上、`ramen`が取得できない`userRequest`は表示されません。
+これでは困るので、`ramen`の有無に関わらず全ての`userRequest`を取得するために他の結合方法を行ってください。
 
 その際に使用したSQL文とその結果を、`RESULT.md`の**課題1**の枠に添付してください。
 
 
 ### 4. 結合(2段階)
 
-上記では、`user`と`ramen`を結び付けた。次はそれに加えて、`ramen`の`place_id`と`place`の`id`を結びつけつ事で、
-`user`と`ramen`と`place`の3つのテーブルが繋がった状態にしてください。
+上記では、`userRequest`と`ramen`を結び付けた。次はそれに加えて、`ramen`の`place_id`と`place`の`id`を結びつけつ事で、
+`userRequest`と`ramen`と`place`の3つのテーブルが繋がった状態にしてください。
 
 その際に使用したSQL文とその結果を、`RESULT.md`の**課題2**の枠に添付してください。
 
@@ -208,9 +273,9 @@ spring.sql.init.encoding=utf-8
 `UserController`クラスの内容を確認し、postmanを使って、
 `getUser`メソッドと、`insertUser`メソッドを呼び出してください。
 
-`getUser`メソッドでは、`homework3`データベースの`user`テーブルから全てのデータを取得しリストで返します。
+`getUser`メソッドでは、`homework3`データベースの`userRequest`テーブルから全てのデータを取得しリストで返します。
 
-`insertUser`メソッドでは、`homework3`データベースの`user`テーブルにデータを追加します。
+`insertUser`メソッドでは、`homework3`データベースの`userRequest`テーブルにデータを追加します。
 `insertUser`メソッドを呼び出す際のリクエストボディは以下のようなJsonデータとしてください。
 
 ~~~
@@ -223,7 +288,7 @@ spring.sql.init.encoding=utf-8
 
 ### 3. 類似機能の作成
 
-今回はプロパティとして、`name`と`age`を持つ`user`テーブルを操作する機能を作成しました。
+今回はプロパティとして、`name`と`age`を持つ`userRequest`テーブルを操作する機能を作成しました。
 
 新たに、`name`、`price`、`place`をもつ`ramen`テーブルを作成し、
 それらを操作する機能をSpring Bootで実装してください。  

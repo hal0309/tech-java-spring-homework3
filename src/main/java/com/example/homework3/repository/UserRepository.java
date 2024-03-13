@@ -1,6 +1,7 @@
 package com.example.homework3.repository;
 
-import com.example.homework3.entity.User;
+import com.example.homework3.entity.UserRequest;
+import com.example.homework3.entity.UserResponse;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
@@ -8,19 +9,20 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface UserRepository extends Repository<User, Integer> {
+public interface UserRepository extends Repository<UserRequest, Integer> {
 
     @Query(value = "SELECT * FROM user_table WHERE id = :id")
-    User find(@Param("id") int id);
+    UserRequest find(@Param("id") int id);
 
-    @Query(value = "SELECT * FROM user_table")
-    List<User> findAll();
+    @Query(value = "SELECT user_table.id, user_table.name, age, ramen_table.name AS favorite_ramen_name FROM user_table LEFT JOIN ramen_table ON user_table.favorite_ramen_id = ramen_table.id")
+    List<UserResponse> findAll();
 
     @Modifying
-    @Query(value = "INSERT INTO user_table(name, age) VALUES(:name, :age)")
+    @Query(value = "INSERT INTO user_table(name, age, favorite_ramen_id) VALUES(:name, :age, :favoriteRamenId)")
     void insert(
             @Param("name") String name,
-            @Param("age") int age
+            @Param("age") int age,
+            @Param("favoriteRamenId") int favoriteRamenId
     );
 
     @Modifying
