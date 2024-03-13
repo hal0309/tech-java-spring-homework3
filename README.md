@@ -73,7 +73,7 @@ private final int placeId;
 
 ### 1.事前準備
 shellから適当なユーザでmysqlにログインし、データベース`homework3_join`を作成したのち、
-3つのテーブル、`userRequest`、`ramen`、`place`を作成してください。
+3つのテーブル、`userRequest`、`ramenRequest`、`place`を作成してください。
 その際、プロパティが以下のようになるようにしてください。
 
 ~~~
@@ -82,7 +82,7 @@ mysql> show tables;
 | Tables_in_homework3_join |
 +--------------------------+
 | place                    |
-| ramen                    |
+| ramenRequest                    |
 | userRequest                     |
 +--------------------------+
 ~~~
@@ -98,7 +98,7 @@ mysql> show columns from userRequest;
 +-------------------+--------------+------+-----+---------+----------------+
 ~~~
 ~~~
-mysql> show columns from ramen;
+mysql> show columns from ramenRequest;
 +-----------+--------------+------+-----+---------+----------------+
 | Field     | Type         | Null | Key | Default | Extra          |
 +-----------+--------------+------+-----+---------+----------------+
@@ -140,7 +140,7 @@ INSERT INTO userRequest(name, age, favorite_ramen_id) VALUES
 ~~~
 
 ~~~
-INSERT INTO ramen(shop_name, price, place_id) VALUES
+INSERT INTO ramenRequest(shop_name, price, place_id) VALUES
     ("Iekei", 800, 1),
     ("Ziroukei", 900, 2),
     ("Tonkotsu", 850, 3);
@@ -156,10 +156,10 @@ INSERT INTO place(name) VALUES
 
 ### 3. 結合(1段階)
 
-以下は、`userRequest`テーブルと`ramen`テーブルの内部結合とその結果です。
+以下は、`userRequest`テーブルと`ramenRequest`テーブルの内部結合とその結果です。
 
 ~~~
-mysql> select * from userRequest join ramen on userRequest.favorite_ramen_id = ramen.id;
+mysql> select * from userRequest join ramenRequest on userRequest.favorite_ramen_id = ramenRequest.id;
 +----+-----------+------+-------------------+----+-----------+-------+----------+
 | id | name      | age  | favorite_ramen_id | id | shop_name | price | place_id |
 +----+-----------+------+-------------------+----+-----------+-------+----------+
@@ -174,18 +174,18 @@ mysql> select * from userRequest join ramen on userRequest.favorite_ramen_id = r
 +----+-----------+------+-------------------+----+-----------+-------+----------+
 ~~~
 
-これは、`userRequest`の`favorite_ramen_id`をもとに、`id`が一致する`ramen`を取得しています。
+これは、`userRequest`の`favorite_ramen_id`をもとに、`id`が一致する`ramenRequest`を取得しています。
 
-内部結合の特性上、`ramen`が取得できない`userRequest`は表示されません。
-これでは困るので、`ramen`の有無に関わらず全ての`userRequest`を取得するために他の結合方法を行ってください。
+内部結合の特性上、`ramenRequest`が取得できない`userRequest`は表示されません。
+これでは困るので、`ramenRequest`の有無に関わらず全ての`userRequest`を取得するために他の結合方法を行ってください。
 
 その際に使用したSQL文とその結果を、`RESULT.md`の**課題1**の枠に添付してください。
 
 
 ### 4. 結合(2段階)
 
-上記では、`userRequest`と`ramen`を結び付けた。次はそれに加えて、`ramen`の`place_id`と`place`の`id`を結びつけつ事で、
-`userRequest`と`ramen`と`place`の3つのテーブルが繋がった状態にしてください。
+上記では、`userRequest`と`ramenRequest`を結び付けた。次はそれに加えて、`ramenRequest`の`place_id`と`place`の`id`を結びつけつ事で、
+`userRequest`と`ramenRequest`と`place`の3つのテーブルが繋がった状態にしてください。
 
 その際に使用したSQL文とその結果を、`RESULT.md`の**課題2**の枠に添付してください。
 
@@ -193,7 +193,7 @@ mysql> select * from userRequest join ramen on userRequest.favorite_ramen_id = r
 ### 5. 整形
 
 上記の結果では、恐らく重複した名称や不必要な情報が見られる。そのため以下の対策を行ってください。
-- `favorite_ramen_id`と`ramen`の`id`は同じ情報なので、片方削除
+- `favorite_ramen_id`と`ramenRequest`の`id`は同じ情報なので、片方削除
 - `place_id`とplace`の`id`は同じ情報なので、片方削除
 - `name`というカラム名が重複しているので、`place`の`name`を`place_name`に変更
 
@@ -290,7 +290,7 @@ spring.sql.init.encoding=utf-8
 
 今回はプロパティとして、`name`と`age`を持つ`userRequest`テーブルを操作する機能を作成しました。
 
-新たに、`name`、`price`、`place`をもつ`ramen`テーブルを作成し、
+新たに、`name`、`price`、`place`をもつ`ramenRequest`テーブルを作成し、
 それらを操作する機能をSpring Bootで実装してください。  
 その際、適宜必要なControllerやmodelを作成してください。
 

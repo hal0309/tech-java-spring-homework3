@@ -1,6 +1,7 @@
 package com.example.homework3.service;
 
-import com.example.homework3.entity.Ramen;
+import com.example.homework3.entity.RamenRequest;
+import com.example.homework3.entity.RamenResponse;
 import com.example.homework3.repository.RamenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,18 +15,18 @@ public class RamenServiceImpl implements RamenService {
     RamenRepository ramenRepository;
 
     @Override
-    public Ramen find(int id) {
+    public RamenRequest find(int id) {
         return ramenRepository.find(id);
     }
 
     @Override
-    public List<Ramen> findAll() {
+    public List<RamenResponse> findAll() {
         return ramenRepository.findAll();
     }
 
     @Override
-    public void insert(Ramen ramen) {
-        ramenRepository.insert(ramen.getName(), ramen.getPrice(), ramen.getPlace());
+    public void insert(RamenRequest ramenRequest) {
+        ramenRepository.insert(ramenRequest.getName(), ramenRequest.getPrice(), ramenRequest.getPlaceId());
     }
 
     @Override
