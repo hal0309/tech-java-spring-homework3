@@ -1,6 +1,7 @@
 package com.example.homework3.service;
 
-import com.example.homework3.entity.User;
+import com.example.homework3.entity.UserRequest;
+import com.example.homework3.entity.UserResponse;
 import com.example.homework3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,18 +15,18 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public User find(int id) {
+    public UserRequest find(int id) {
         return userRepository.find(id);
     }
 
     @Override
-    public List<User> findAll() {
+    public List<UserResponse> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public void insert(User user) {
-        userRepository.insert(user.getName(), user.getAge());
+    public void insert(UserRequest userRequest) {
+        userRepository.insert(userRequest.getName(), userRequest.getAge(), userRequest.getFavoriteRamenId());
     }
 
     @Override

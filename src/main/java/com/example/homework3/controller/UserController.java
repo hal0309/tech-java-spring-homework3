@@ -1,6 +1,7 @@
 package com.example.homework3.controller;
 
-import com.example.homework3.entity.User;
+import com.example.homework3.entity.UserRequest;
+import com.example.homework3.entity.UserResponse;
 import com.example.homework3.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,18 +15,18 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/find")
-    public User find(@RequestBody int id){
+    public UserRequest find(@RequestBody int id){
         return userService.find(id);
     }
 
     @GetMapping("/findAll")
-    public List<User> findAll(){
+    public List<UserResponse> findAll(){
         return userService.findAll();
     }
 
     @PostMapping("/insert")
-    public String insert(@RequestBody User user){
-        userService.insert(user);
+    public String insert(@RequestBody UserRequest userRequest){
+        userService.insert(userRequest);
         return "insert success";
     }
 
