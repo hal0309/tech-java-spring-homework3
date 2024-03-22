@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 public class RamenResponse {
@@ -12,4 +14,5 @@ public class RamenResponse {
     private final String name;
     private final int price;
     private final String placeName;
+    private final List<String> toppingList;
 }

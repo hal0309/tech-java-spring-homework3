@@ -13,4 +13,5 @@ public class UserResponse {
     private final String name;
     private final int age;
     private final String favoriteRamenName;
+    private final String liveInCityName;
 }
