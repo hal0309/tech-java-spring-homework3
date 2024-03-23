@@ -6,8 +6,7 @@ import org.springframework.data.annotation.Id;
 
 @Data
 @AllArgsConstructor
-public class Ramen {
-    @Id
+public class RamenRequest {
     private final int id;
     private final String name;
     private final int price;
