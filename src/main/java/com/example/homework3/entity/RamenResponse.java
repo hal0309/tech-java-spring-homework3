@@ -14,5 +14,4 @@ public class RamenResponse {
     private final String name;
     private final int price;
     private final String placeName;
-    private final List<String> toppingList;
 }

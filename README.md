@@ -15,8 +15,6 @@ SpringBoot と SQL を使って、データベースを操作する演習です�
 `UserRequest`クラスに、`liveInCityId`という変数を追加しました。これは、`place_table`の`id`と結びつけるためのものです。  
 また、`UserResponse`クラスに、`liveInCityName`という変数を追加しました。
 
-`RamenResponse`クラスに、`toppingList`という変数を追加しました。
-
 ### 2. APIの構造見直し
 `liveInCityName`が正しく取得できるようにSQL文等を見直してください。
 
