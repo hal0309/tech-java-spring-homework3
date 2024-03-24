@@ -27,12 +27,8 @@ public class RamenServiceImpl implements RamenService {
     public List<RamenAPIResponse> findAll() {
         List<RamenDBResponse> ramenList = ramenRepository.findAll();
         return ramenList.stream()
-                .map(ramen ->
-                        RamenAPIResponse.fromDBResponse(
-                                ramen,
-                                toppingRepository.findByRamenId(ramen.getId())
-                        )
-                ).toList();
+                .map(ramen -> RamenAPIResponse.fromDBResponse(ramen, toppingRepository.findByRamenId(ramen.getId())))
+                .toList();
     }
 
     @Override
