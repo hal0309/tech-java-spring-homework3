@@ -23,4 +23,12 @@ CREATE TABLE IF NOT EXISTS place_table
     PRIMARY KEY(id)
 );
 
+CREATE TABLE IF NOT EXISTS topping_table
+(
+    ramen_id INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100),
+    price INT,
+    PRIMARY KEY(ramen_id, id)
+);
 
