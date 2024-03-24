@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS user_table
     name VARCHAR(100),
     age INT,
     favorite_ramen_id INT,
+    live_in_city_id INT,
     PRIMARY KEY(id)
 );
 
