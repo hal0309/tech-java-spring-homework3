@@ -11,4 +11,5 @@ public class UserRequest {
     private final String name;
     private final int age;
     private final int favoriteRamenId;
+    private final int liveInCityId;
 }

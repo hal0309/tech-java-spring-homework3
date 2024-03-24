@@ -1,17 +1,17 @@
 package com.example.homework3.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
-public class UserResponse {
+public class RamenResponse {
     @Id
     private final int id;
     private final String name;
-    private final int age;
-    private final String favoriteRamenName;
-    private final String liveInCityName;
+    private final int price;
+    private final String placeName;
 }

@@ -1,6 +1,7 @@
 package com.example.homework3.controller;
 
-import com.example.homework3.entity.Ramen;
+import com.example.homework3.entity.RamenRequest;
+import com.example.homework3.entity.RamenResponse;
 import com.example.homework3.service.RamenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +16,18 @@ public class RamenController {
     RamenService ramenService;
 
     @GetMapping("/find")
-    public Ramen find(@RequestBody int id){
+    public RamenRequest find(@RequestBody int id){
         return ramenService.find(id);
     }
 
     @GetMapping("/findAll")
-    public List<Ramen> findAll(){
+    public List<RamenResponse> findAll(){
         return ramenService.findAll();
     }
 
     @PostMapping("/insert")
-    public String insert(@RequestBody Ramen ramen){
-        ramenService.insert(ramen);
+    public String insert(@RequestBody RamenRequest ramenRequest){
+        ramenService.insert(ramenRequest);
         return "insert success";
     }
 
