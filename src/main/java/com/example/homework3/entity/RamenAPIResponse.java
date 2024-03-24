@@ -15,4 +15,8 @@ public class RamenAPIResponse {
     private final int price;
     private final String placeName;
     private final List<ToppingResponse> toppingList;
+
+    public static RamenAPIResponse fromDBResponse(RamenDBResponse dbResponse, List<ToppingResponse> toppingList){
+        return new RamenAPIResponse(dbResponse.getId(), dbResponse.getName(), dbResponse.getPrice(), dbResponse.getPlaceName(), toppingList);
+    }
 }

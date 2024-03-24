@@ -1,7 +1,7 @@
 package com.example.homework3.repository;
 
 import com.example.homework3.entity.RamenRequest;
-import com.example.homework3.entity.RamenResponse;
+import com.example.homework3.entity.RamenDBResponse;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.Repository;
@@ -15,7 +15,7 @@ public interface RamenRepository extends Repository<RamenRequest, Integer> {
     RamenRequest find(@Param("id") int id);
 
     @Query(value = "SELECT ramen_table.id, ramen_table.name, price, place_table.name AS place_name FROM ramen_table LEFT JOIN place_table ON ramen_table.place_id = place_table.id")
-    List<RamenResponse> findAll();
+    List<RamenDBResponse> findAll();
 
     @Modifying
     @Query(value = "INSERT INTO ramen_table(name, price, place_id) VALUES(:name, :price, :placeId)")

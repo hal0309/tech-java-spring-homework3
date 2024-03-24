@@ -1,7 +1,8 @@
 package com.example.homework3.controller;
 
+import com.example.homework3.entity.RamenAPIResponse;
 import com.example.homework3.entity.RamenRequest;
-import com.example.homework3.entity.RamenResponse;
+import com.example.homework3.entity.RamenDBResponse;
 import com.example.homework3.service.RamenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class RamenController {
     }
 
     @GetMapping("/findAll")
-    public List<RamenResponse> findAll(){
+    public List<RamenAPIResponse> findAll(){
         return ramenService.findAll();
     }
 
