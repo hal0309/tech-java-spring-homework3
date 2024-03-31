@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS user_table
     name VARCHAR(100),
     age INT,
     favorite_ramen_id INT,
+    live_in_city_id INT,
     PRIMARY KEY(id)
 );
 
@@ -23,4 +24,12 @@ CREATE TABLE IF NOT EXISTS place_table
     PRIMARY KEY(id)
 );
 
+CREATE TABLE IF NOT EXISTS topping_table
+(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100),
+    price INT,
+    ramen_id INT NOT NULL,
+    PRIMARY KEY(id)
+);
 

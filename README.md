@@ -2,6 +2,35 @@
 
 SpringBoot と SQL を使って、データベースを操作する演習です。
 
+
+## 2024年3月31日 課題
+今回は結合に変わってサブクエリを使ってみましょう。
+
+### 0. 今回の課題について
+今回は、サブクエリを用いてSQLの実装を行います。
+
+今まで外部結合を用いていた処理を全てサブクエリに変更してみましょう。
+
+### 1. 現状確認
+現状結合を用いているのは2箇所です。
+
+RamenRepository
+~~~SQL
+SELECT ramen_table.id, ramen_table.name, price, place_table.name AS place_name FROM ramen_table
+LEFT JOIN place_table ON ramen_table.place_id = place_table.id
+~~~
+
+UserRepository
+~~~SQL
+SELECT user_table.id, user_table.name, age, ramen_table.name AS favorite_ramen_name, place_table.name as live_in_city_name FROM user_table
+LEFT JOIN ramen_table ON user_table.favorite_ramen_id = ramen_table.id
+LEFT JOIN place_table ON user_table.live_in_city_id = place_table.id
+~~~
+
+### 2. サブクエリの実装
+上記のSQL文をサブクエリを用いて書き換えてください。
+
+
 ## 2024年3月24日 課題
 今回は前回の復習に加え、1対多の関係を持つEntityを作成します。
 
