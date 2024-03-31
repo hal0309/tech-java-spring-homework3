@@ -1,10 +1,10 @@
 package com.example.homework3.service;
 
-import com.example.homework3.entity.RamenAPIResponse;
+import com.example.homework3.entity.AllRamenResponse;
 import com.example.homework3.entity.RamenRequest;
-import com.example.homework3.entity.RamenDBResponse;
+import com.example.homework3.entity.RamenResponse;
+import com.example.homework3.entity.RamenToppingResponse;
 import com.example.homework3.repository.RamenRepository;
-import com.example.homework3.repository.ToppingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +15,6 @@ public class RamenServiceImpl implements RamenService {
 
     @Autowired
     RamenRepository ramenRepository;
-    @Autowired
-    ToppingRepository toppingRepository;
 
     @Override
     public RamenRequest find(int id) {
@@ -24,10 +22,24 @@ public class RamenServiceImpl implements RamenService {
     }
 
     @Override
-    public List<RamenAPIResponse> findAll() {
-        List<RamenDBResponse> ramenList = ramenRepository.findAll();
-        return ramenList.stream()
-                .map(ramen -> RamenAPIResponse.fromDBResponse(ramen, toppingRepository.findByRamenId(ramen.getId())))
+    public List<AllRamenResponse> findAll() {
+        // RamenResponseを取得
+        List<RamenResponse> ramenResponseList = ramenRepository.findAll();
+
+        // RamenToppingResponseを取得
+        List<RamenToppingResponse> ramenToppingResponse =ramenRepository.findAllTopping();
+
+        // AllRamenResponseを設定、レスポンスを返す
+        return ramenResponseList.stream()
+                .map(ramenResponse -> {
+                    AllRamenResponse allRamenResponse = new AllRamenResponse();
+                    allRamenResponse.setId(ramenResponse.getId());
+                    allRamenResponse.setName(ramenResponse.getName());
+                    allRamenResponse.setPrice(ramenResponse.getPrice());
+                    allRamenResponse.setPlaceName(ramenResponse.getPlaceName());
+                    allRamenResponse.setRamenToppingResponse(ramenToppingResponse);
+                    return allRamenResponse;
+                })
                 .toList();
     }
 

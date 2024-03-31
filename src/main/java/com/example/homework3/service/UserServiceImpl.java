@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void insert(UserRequest userRequest) {
-        userRepository.insert(userRequest.getName(), userRequest.getAge(), userRequest.getFavoriteRamenId(), userRequest.getLiveInCityId());
+        userRepository.insert(userRequest.getName(), userRequest.getAge(), userRequest.getFavoriteRamenId());
     }
 
     @Override
