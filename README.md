@@ -33,6 +33,7 @@ LEFT JOIN place_table ON user_table.live_in_city_id = place_table.id
 
 ## 2024年3月24日 課題
 今回は前回の復習に加え、1対多の関係を持つEntityを作成します。
+※liveInCityIdを追加する
 
 ### 0. 今回の課題について
 今回は最終的に以下の要件が満たされていれば良いです。
