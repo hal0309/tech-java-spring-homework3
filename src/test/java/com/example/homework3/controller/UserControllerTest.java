@@ -33,24 +33,34 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void findAllのstatusが200() throws Exception {
+    void findAll実行時のHTTPステータスが200() throws Exception {
         this.mockMvc.perform(get("/user/findAll"))
-                .andDo(print())
-                .andExpect(status().isOk());
+                .andDo(print())  // 取得結果を画面に出力
+                .andExpect(status().isOk()); // ステータスコードが200であることを検証
     }
 
     @Test
-    void findAllを呼び出すとbodyに2つのデータがある() throws Exception {
+    void findAll実行時ユーザーが3人取得される() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/user/findAll"))
+                .andDo(print())
+                .andReturn();
+
+        String body = result.getResponse().getContentAsString(); // レスポンスの中からボディ部分を取得
+        UserResponse[] userResponses = objectMapper.readValue(body, UserResponse[].class); // ボディ部分をUserResponseの配列に変換
+        assertEquals(3, userResponses.length); // レスポンスに含まれるユーザーが3人であることを検証
+    }
+
+    @Test
+    void findAll実行時1人目のユーザーの出身地がYokohamaで好きなラーメンがIekei() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/user/findAll"))
                 .andDo(print())
                 .andReturn();
 
         String body = result.getResponse().getContentAsString();
         UserResponse[] userResponses = objectMapper.readValue(body, UserResponse[].class);
-        Arrays.stream(userResponses).forEach(System.out::println);
+        UserResponse firstUser = userResponses[0]; // 1人目のユーザーを取得
+        assertEquals("Yokohama", firstUser.getLiveInCityName()); // 1人目のユーザーの出身地がYokohamaであることを検証
+        assertEquals("Iekei", firstUser.getFavoriteRamenName()); // 1人目のユーザーの好きなラーメンがIekeiであることを検証
 
-        assertEquals(2, userResponses.length);
     }
-
-
 }

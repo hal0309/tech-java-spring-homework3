@@ -2,6 +2,63 @@
 
 SpringBoot と SQL を使って、データベースを操作する演習です。
 
+## 2024年4月6日 課題
+今回は、Junitでのテストコードを実装します。
+
+### 0. 今回の課題について
+今回の課題は、Junitを用いて`RamenController`のテストコードを実装することです。
+以下の条件が満たされればOKです。
+* 実行時に毎回`ramen_table`と`topping_table`が初期化され、毎回同じ状態でテストが行われる
+* `RamenController`に対して以下のテストが行われる
+    * `findAll`メソッドを実行時、ステータスコード200が返ってくる
+    * `findAll`メソッドを実行時、4つのラーメンが取得できる
+    * `findAll`メソッドを実行時、1つのラーメンに対して2つのトッピングが取得でき、名称が`Nori`と`Tamago`で、価格がそれぞれ`50`と`100`である。
+    * `findAll`メソッドを実行時、1つ目のラーメンのトッピング数と2つ目のラーメンのトッピング数が異なる
+  
+### 1. 現状確認
+`application.properties`に行が追加されており、`data.sql`が実行される設定になっていることを確認してください。
+
+その上で、`schema.sql`と`data.sql`を見ると、毎回`user_table`と`place_table`が初期化され、初期値として幾つかデータが追加される
+設定になっていることを確認してください。
+
+また、`UserControllerTest`クラスには、`UserController`のテストコードが実装されています。
+これを参考にしてみてください。
+
+### 2. DBの初期化処理の実装
+`schema.sql`で`ramen_table`と`topping_table`を毎回初期化する処理を実装してください。
+
+その上で、初期化したテーブルに毎回同じデータが存在するようにしてください。  
+以下のサンプルを用いてもOKです。 
+
+`ramen_table`
+~~~ MySQL
+INSERT INTO ramen_table(name, price) VALUES
+    ("Iekei", 700),
+    ("Tonkotsu", 800),
+    ("Shoyu", 750),
+    ("Miso", 750);
+~~~
+`topping_table`
+~~~ MySQL
+INSERT INTO topping_table(name, price, ramen_id) VALUES
+    ("Chashu", 100, 1),
+    ("Nori", 50, 1),
+    ("Tamago", 100, 2),
+    ("Menma", 50, 2),
+    ("Negi", 50, 3),
+    ("Chashu", 100, 3),
+    ("Nori", 50, 4),
+    ("Tamago", 100, 4);
+~~~
+
+### 3. テストコードの実装
+課題0でも挙げましたが、`RamenController`に対して以下のテストコードを実装してください。
+* `findAll`メソッドを実行時、ステータスコード200が返ってくる
+* `findAll`メソッドを実行時、4つのラーメンが取得できる
+* `findAll`メソッドを実行時、1つのラーメンに対して2つのトッピングが取得でき、名称が`Nori`と`Tamago`で、価格がそれぞれ`50`と`100`である。
+* `findAll`メソッドを実行時、1つ目のラーメンのトッピング数と2つ目のラーメンのトッピング数が異なる
+
+`UserController`のテストコードを参考にしてみてください。
 
 ## 2024年3月31日 課題
 今回は結合に変わってサブクエリを使ってみましょう。
