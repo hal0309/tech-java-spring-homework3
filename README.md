@@ -41,9 +41,8 @@ INSERT INTO ramen_table(name, price) VALUES
 `topping_table`
 ~~~ MySQL
 INSERT INTO topping_table(name, price, ramen_id) VALUES
-    ("Chashu", 100, 1),
     ("Nori", 50, 1),
-    ("Tamago", 100, 2),
+    ("Tamago", 100, 1),
     ("Menma", 50, 2),
     ("Negi", 50, 3),
     ("Chashu", 100, 3),
