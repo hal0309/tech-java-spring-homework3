@@ -14,8 +14,11 @@ public interface RamenRepository extends Repository<RamenRequest, Integer> {
     @Query(value = "SELECT * FROM ramen_table WHERE id = :id")
     RamenRequest find(@Param("id") int id);
 
-    @Query(value = "SELECT ramen_table.id, ramen_table.name, price, place_table.name AS place_name FROM ramen_table " +
-            "LEFT JOIN place_table ON ramen_table.place_id = place_table.id")
+//    @Query(value = "SELECT ramen_table.id, ramen_table.name, price, place_table.name AS place_name FROM ramen_table " +
+//            "LEFT JOIN place_table ON ramen_table.place_id = place_table.id")
+    @Query(value = "SELECT ramen_table.id, ramen_table.name, ramen_table.price," +
+            " (SELECT place_table.name FROM place_table WHERE ramen_table.place_id = place_table.id) AS place_name" +
+            " FROM ramen_table;")
     List<RamenDBResponse> findAll();
 
     @Modifying

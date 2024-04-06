@@ -1,4 +1,7 @@
-CREATE TABLE IF NOT EXISTS user_table
+DROP TABLE IF EXISTS user_table;
+DROP TABLE IF EXISTS place_table;
+
+CREATE TABLE user_table
 (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100),
@@ -17,7 +20,7 @@ CREATE TABLE IF NOT EXISTS ramen_table
     PRIMARY KEY(id)
 );
 
-CREATE TABLE IF NOT EXISTS place_table
+CREATE TABLE place_table
 (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100),
