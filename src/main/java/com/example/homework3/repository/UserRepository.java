@@ -14,9 +14,10 @@ public interface UserRepository extends Repository<UserRequest, Integer> {
     @Query(value = "SELECT * FROM user_table WHERE id = :id")
     UserRequest find(@Param("id") int id);
 
-    @Query(value = "SELECT user_table.id, user_table.name, age, ramen_table.name AS favorite_ramen_name, place_table.name as live_in_city_name FROM user_table " +
-            "LEFT JOIN ramen_table ON user_table.favorite_ramen_id = ramen_table.id " +
-            "LEFT JOIN place_table ON user_table.live_in_city_id = place_table.id")
+    @Query(value = "SELECT id, name, age, " +
+            "(SELECT name FROM ramen_table WHERE user_table.favorite_ramen_id = ramen_table.id ) AS favorite_ramen_name ," +
+            "(SELECT name FROM place_table WHERE user_table.live_in_city_id = place_table.id ) AS live_in_city_name " +
+            "FROM user_table")
     List<UserResponse> findAll();
 
     @Modifying
