@@ -45,13 +45,33 @@ public class UserController {
 
     @GetMapping("/ramenLikeMap")
     public Map<String, List<String>> ramenLikeMap(){
-        /* todo: 実装してください */
-        return null;
+        Map<String, List<String>> ramenMap = new LinkedHashMap<>();
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
+
+        ramenList.stream()
+                .sorted(Comparator.comparing(RamenAPIResponse::getName))
+                .forEach(ramen -> ramenMap.put(ramen.getName(), new ArrayList<>()));
+        userList.stream()
+                .sorted(Comparator.comparing(UserResponse::getAge).reversed())
+                .forEach(user -> ramenMap.get(user.getFavoriteRamenName()).add(String.format("%s(%d)", user.getName(), user.getAge())));
+
+        return ramenMap;
     }
 
     @GetMapping("/liveWithRamen")
     public List<String> liveWithRamen(){
-        /* todo: 実装してください */
-        return null;
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
+
+        return userList.stream()
+                .sorted(Comparator.comparing(UserResponse::getAge))
+                .filter(user -> user.getLiveInCityName().equals(
+                        ramenList.stream().filter(ramen -> ramen.getName().equals(user.getFavoriteRamenName())).findFirst().get().getPlaceName()
+                ))
+                .map(user -> String.format("%sに住んでいる%sさんは地元の%sラーメンが好きです。",
+                        user.getLiveInCityName(), user.getName(), user.getFavoriteRamenName())
+                )
+                .toList();
     }
 }
