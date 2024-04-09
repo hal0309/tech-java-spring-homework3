@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface UserService {
 
-    public UserRequest find(int id);
+    UserRequest find(int id);
 
-    public List<UserResponse> findAll();
+    List<UserResponse> findAll();
 
-    public void insert(UserRequest userRequest);
+    void insert(UserRequest userRequest);
 
-    public void delete(int id);
+    void delete(int id);
 
 }
