@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface RamenService {
 
-    public RamenRequest find(int id);
+    RamenRequest find(int id);
 
-    public List<RamenAPIResponse> findAll();
+    List<RamenAPIResponse> findAll();
 
-    public void insert(RamenRequest ramenRequest);
+    void insert(RamenRequest ramenRequest);
 
-    public void delete(int id);
+    void delete(int id);
 
 }

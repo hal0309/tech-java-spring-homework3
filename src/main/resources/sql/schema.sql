@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS user_table;
+DROP TABLE IF EXISTS ramen_table;
 DROP TABLE IF EXISTS place_table;
+DROP TABLE IF EXISTS topping_table;
 
 CREATE TABLE user_table
 (
