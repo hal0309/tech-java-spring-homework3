@@ -19,10 +19,13 @@ SpringBoot と SQL を使って、データベースを操作する演習です�
   * `RamenAPIResponse`の`price`が`100`であること
   * `RamenAPIResponse`の`placeName`が`"place1"`であること
   * `RamenAPIResponse`の`toppingList`が`"topping1"`と`"topping2"`であること
+ 
+ 
 * `findAll()`を実行時、適切に`RamenAPIResponse`が返ってきて、2つのラーメンが存在する。
   * ラーメンが2つ存在すること 
   * `find(1)`のテストと同様に1つ目のラーメンのプロパティが正しいこと
-  * 2つ目のラーメンのプロパティも正しいこと(2つ目のラーメンはトッピングが3つ存在すること)
+  * 2つ目のラーメンのプロパティも正しいこと
+  * 1つ目のラーメンには2つのトッピングが、2つ目のラーメンには3つのトッピングが存在すること
 
 上記を満たすように適切にテストクラスやモックを作成してください。
 
@@ -32,7 +35,21 @@ SpringBoot と SQL を使って、データベースを操作する演習です�
 `liveInCityMap`  
 レスポンスが以下のように、住んでいる地域ごとに住んでいる人の名前のリストを持つMapを返すエンドポイントです。
 ~~~ json 
-
+{
+    "Tokyo": [
+        "Watanabe",
+        "Tanaka",
+        "Takeshi",
+        "Yoshioka"
+    ],
+    "Yokohama": [
+        "Yamada"
+    ],
+    "Hukuoka": [
+        "Nakano",
+        "Suzuki"
+    ]
+}
 ~~~
 
 `noriLikeUser`
