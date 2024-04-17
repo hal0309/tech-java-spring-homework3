@@ -77,11 +77,13 @@ public class UserController {
 
     @GetMapping("/liveInCityMap")
     public Map<String, List<String>> liveInCityMap(){
+        /* todo: 実装してください */
         return null;
     }
 
     @GetMapping("/noriLikeUser")
     public List<String> noriLikeUser(){
+        /* todo: 実装してください */
         return null;
     }
 }
