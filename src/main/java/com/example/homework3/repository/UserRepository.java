@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserRepository extends Repository<UserRequest, Integer> {
 
     @Query(value = "SELECT * FROM user_table WHERE id = :id")
-    UserRequest find(@Param("id") int id);
+    UserResponse find(@Param("id") int id);
 
 //    @Query(value = "SELECT user_table.id, user_table.name, age, ramen_table.name AS favorite_ramen_name, place_table.name as live_in_city_name FROM user_table " +
 //            "LEFT JOIN ramen_table ON user_table.favorite_ramen_id = ramen_table.id " +

@@ -22,7 +22,7 @@ public class UserController {
     private RamenService ramenService;
 
     @GetMapping("/find")
-    public UserRequest find(@RequestBody int id){
+    public UserResponse find(@RequestBody int id){
         return userService.find(id);
     }
 
@@ -73,5 +73,15 @@ public class UserController {
                         user.getLiveInCityName(), user.getName(), user.getFavoriteRamenName())
                 )
                 .toList();
+    }
+
+    @GetMapping("/liveInCityMap")
+    public Map<String, List<String>> liveInCityMap(){
+        return null;
+    }
+
+    @GetMapping("/noriLikeUser")
+    public List<String> noriLikeUser(){
+        return null;
     }
 }

@@ -2,6 +2,49 @@
 
 SpringBoot と SQL を使って、データベースを操作する演習です。
 
+## 2024年4月21日 課題
+今回は、serviceに対するテストクラスの作成と、streamの演習です。
+
+### 1. リファクタリング
+まず、`RamenController`内の`find`メソッドを見ると、本来戻り値は`RamenAPIResponse`であるべきところが、
+`RamenRequest`で返っていることがわかります。  
+そのため、`RamenAPIResponse`で返すことができるよう`findAll`を参考に、関係するクラスを全てリファクタリングしてください。
+
+### 2. Serviceのテストクラスの作成
+`RamenService`に対するテストクラスを作成してください。テスト項目は以下の2つのとします。
+
+* `find(1)`を実行時、適切に`RamenAPIResponse`が返ってくる。
+  * `RamenAPIResponse`の`id`が`1`であること
+  * `RamenAPIResponse`の`name`が`"ramen1"`であること
+  * `RamenAPIResponse`の`price`が`100`であること
+  * `RamenAPIResponse`の`placeName`が`"place1"`であること
+  * `RamenAPIResponse`の`toppingList`が`"topping1"`と`"topping2"`であること
+* `findAll()`を実行時、適切に`RamenAPIResponse`が返ってきて、2つのラーメンが存在する。
+  * ラーメンが2つ存在すること 
+  * `find(1)`のテストと同様に1つ目のラーメンのプロパティが正しいこと
+  * 2つ目のラーメンのプロパティも正しいこと(2つ目のラーメンはトッピングが3つ存在すること)
+
+上記を満たすように適切にテストクラスやモックを作成してください。
+
+### 3. Streamの演習
+`UserController`内に以下のエンドポイントを作成してください。
+
+`liveInCityMap`  
+レスポンスが以下のように、住んでいる地域ごとに住んでいる人の名前のリストを持つMapを返すエンドポイントです。
+~~~ json 
+
+~~~
+
+`noriLikeUser`
+レスポンスが以下のように、好きなラーメンのトッピングにノリを含むユーザの名前のリストを返すエンドポイントです。
+~~~ json
+[
+    "Nakano",
+    "Watanabe",
+    "Yamada"
+]
+~~~
+
 ## 2024年4月14日 課題
 今回は、streamやlambdaの復習です。
 
