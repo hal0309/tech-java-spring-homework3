@@ -18,7 +18,7 @@ SpringBoot と SQL を使って、データベースを操作する演習です�
   * `RamenAPIResponse`の`name`が`"ramen1"`であること
   * `RamenAPIResponse`の`price`が`100`であること
   * `RamenAPIResponse`の`placeName`が`"place1"`であること
-  * `RamenAPIResponse`の`toppingList`が`"topping1"`と`"topping2"`であること
+  * `RamenAPIResponse`の`toppingList`に2つのトッピングが存在し、名称が`"topping1"`と`"topping2"`であること
  
  
 * `findAll()`を実行時、適切に`RamenAPIResponse`が返ってきて、2つのラーメンが存在する。
