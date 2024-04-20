@@ -1,8 +1,12 @@
 package com.example.homework3.service;
 
+import com.example.homework3.entity.UserLiveWithRamenResponse;
+import com.example.homework3.entity.UserRamenMapResponse;
 import com.example.homework3.entity.UserRequest;
 import com.example.homework3.entity.UserResponse;
 import com.example.homework3.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,4 +37,25 @@ public class UserServiceImpl implements UserService {
     public void delete(int id) {
         userRepository.delete(id);
     }
+
+//    @Override
+//    public List<UserRamenMapResponse> findRamenLikeMapAll() {
+//        List<UserResponse> userResponseList = userRepository.findAll();
+//
+//        // なぜかuserRamenMapResponseに値セットできない
+//        return userResponseList.stream()
+//                .map(userResponse -> {
+//                    UserRamenMapResponse userRamenMapResponse = new UserRamenMapResponse();
+//                    userRamenMapResponse.setId(userResponse.getId());
+//                    userRamenMapResponse.setName(userResponse.getName());
+//                    userRamenMapResponse.setAge(userResponse.getAge());
+//                    userRamenMapResponse.setFavoriteRamenName(userResponse.getFavoriteRamenName());
+//                    return userRamenMapResponse;
+//                })
+//                .toList();
+//    }
+//    @Override
+//    public List<UserLiveWithRamenResponse> findliveWithRamenAll(){
+//        return userRepository.findliveWithRamenAll();
+//    }
 }
