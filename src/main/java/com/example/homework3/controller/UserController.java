@@ -45,13 +45,34 @@ public class UserController {
 
     @GetMapping("/ramenLikeMap")
     public Map<String, List<String>> ramenLikeMap(){
-        /* todo: 実装してください */
-        return null;
+        Map<String, List<String>> ramenMap = new LinkedHashMap<>();
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
+
+        /* ラーメン名をキーとした空のリストのマップを作成 */
+        ramenList.stream()
+                .sorted(Comparator.comparing(RamenAPIResponse::getName))  // ラーメン名でソート
+                .forEach(ramen -> ramenMap.put(ramen.getName(), new ArrayList<>())); // ラーメン名をキーとした空のリストを追加
+
+        /* 好きなラーメンのキーのリストにユーザー名(年齢)の文字列を追加 */
+        userList.stream()
+                /*.sorted()*/ // todo: 年齢でソート
+                .forEach(user -> ramenMap.get(user.getFavoriteRamenName()).add("こんにちは！")); // todo: ユーザ名(年齢)に変更
+
+        return ramenMap;
     }
 
     @GetMapping("/liveWithRamen")
     public List<String> liveWithRamen(){
-        /* todo: 実装してください */
-        return null;
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
+
+        return userList.stream()
+                /*.sorted()*/ // todo: 年齢でソート
+                .filter(user -> user.getLiveInCityName().equals(
+                        ramenList.stream().filter(ramen -> ramen.getName().equals(user.getFavoriteRamenName())).findFirst().get().getPlaceName() // userの好きなラーメンの所在地を取得
+                ))  // 好きなラーメンの所在地とユーザの居住地が同じものを抽出
+                .map(user -> "こんにちは！")  // todo: "%sに住んでいる%sさんは地元の%sラーメンが好きです。"に変更
+                .toList();
     }
 }
