@@ -24,5 +24,5 @@ INSERT INTO topping_table(name, price, ramen_id) VALUES
                                                      ("Menma", 50, 2),
                                                      ("Negi", 50, 3),
                                                      ("Chashu", 100, 3),
-                                                     ("Nori", 50, 4),
+                                                     ("Nori", 50, 3),
                                                      ("Tamago", 100, 4);
