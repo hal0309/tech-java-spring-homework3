@@ -19,8 +19,9 @@ public class RamenServiceImpl implements RamenService {
     ToppingRepository toppingRepository;
 
     @Override
-    public RamenRequest find(int id) {
-        return ramenRepository.find(id);
+    public RamenAPIResponse find(int id) {
+        RamenDBResponse ramen = ramenRepository.find(id);
+        return RamenAPIResponse.fromDBResponse(ramen, toppingRepository.findByRamenId(ramen.getId()));
     }
 
     @Override
