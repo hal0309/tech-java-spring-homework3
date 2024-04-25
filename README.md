@@ -8,7 +8,7 @@ SpringBoot と SQL を使って、データベースを操作する演習です�
 ### 3. Streamの演習
 `UserController`内に以下のエンドポイントを作成してください。
 
-`liveInCityMap`  
+#### `liveInCityMap`  
 レスポンスが以下のように、住んでいる地域ごとに住んでいる人の名前のリストを持つMapを返すエンドポイントです。
 ~~~ json 
 {
@@ -28,16 +28,23 @@ SpringBoot と SQL を使って、データベースを操作する演習です�
 }
 ~~~
 
-`noriLikeUser`
+####  `noriLikeUser`  
 レスポンスが以下のように、好きなラーメンのトッピングにノリを含むユーザの名前のリストを返すエンドポイントです。
+
+例えば今回の状況だと、トッピングとして`Nori`が追加されているのは`Iekei`と`Shoyu`です。
+そのため、`Iekei`または`Shoyu`が好きなユーザである以下の5人の名前が返ってくるはずです。
 
 ~~~ json
 [
     "Nakano",
+    "Takeshi",
+    "Tanaka",
     "Watanabe",
     "Yamada"
 ]
 ~~~
+
+---
 
 ## 2024年4月14日 課題
 今回は、streamやlambdaの復習です。
