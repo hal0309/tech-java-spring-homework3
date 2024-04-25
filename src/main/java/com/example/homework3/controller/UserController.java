@@ -77,11 +77,28 @@ public class UserController {
 
     @GetMapping("/liveInCityMap")
     public Map<String, List<String>> liveInCityMap(){
-        return null;
+        Map<String, List<String>> liveInCityMap = new HashMap<>();
+        List<UserResponse> userList = userService.findAll();
+
+        userList.stream()
+                .sorted(Comparator.comparing(UserResponse::getAge))
+                .forEach(user -> {
+                    if (!liveInCityMap.containsKey(user.getLiveInCityName())) {
+                        liveInCityMap.put(user.getLiveInCityName(), new ArrayList<>());
+                    }
+                    liveInCityMap.get(user.getLiveInCityName()).add(user.getName());
+                });
+        return liveInCityMap;
     }
 
     @GetMapping("/noriLikeUser")
     public List<String> noriLikeUser(){
-        return null;
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
+        return userList.stream()
+                .filter(user -> ramenList.stream().filter(ramen -> ramen.getName().equals(user.getFavoriteRamenName())).findFirst().get().getToppingList().stream().anyMatch(topping -> Objects.equals(topping.getName(), "Nori")))
+                .sorted(Comparator.comparing(UserResponse::getName))
+                .map(user -> user.getName())
+                .toList();
     }
 }
