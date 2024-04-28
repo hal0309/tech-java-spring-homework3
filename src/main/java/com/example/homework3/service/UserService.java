@@ -1,5 +1,7 @@
 package com.example.homework3.service;
 
+import com.example.homework3.entity.UserLiveWithRamenResponse;
+import com.example.homework3.entity.UserRamenMapResponse;
 import com.example.homework3.entity.UserRequest;
 import com.example.homework3.entity.UserResponse;
 
@@ -15,4 +17,7 @@ public interface UserService {
 
     void delete(int id);
 
+//    List<UserRamenMapResponse> findRamenLikeMapAll();
+
+//    List<UserLiveWithRamenResponse> findliveWithRamenAll();
 }
