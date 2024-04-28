@@ -46,37 +46,45 @@ public class UserController {
 
     @GetMapping("/ramenLikeMap")
     public Map<String, List<String>> ramenLikeMap(){
-//        List<UserRamenMapResponse> userResponseList = userService.findRamenLikeMapAll();
-
-        List<UserResponse> userResponseList = userService.findAll();
         /* todo: 実装してください */
-        Map<String, List<String>> a = userResponseList.stream()
-//                .sorted((a,b) -> b.getAge() - a.getAge())
-                .sorted(Comparator.comparing(UserResponse::getAge).reversed())
-                .collect(Collectors.groupingBy(UserResponse::getFavoriteRamenName,
-                        Collectors.mapping(UserResponse::getName,Collectors
-                                .toList())));
+        Map<String, List<String>> ramenMap = new LinkedHashMap<>();
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
 
-        Map<String, List<String>> b = a.entrySet()
-                .stream()
-                .sorted(Entry.comparingByKey())
-                .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
-                        (e1, e2) -> e1, LinkedHashMap::new));
-        return b;
+        /* ラーメン名をキーとした空のリストのマップを作成 */
+        ramenList.stream()
+                .sorted(Comparator.comparing(RamenAPIResponse::getName))  // ラーメン名でソート
+                .forEach(ramen -> ramenMap.put(ramen.getName(), new ArrayList<>())); // ラーメン名をキーとした空のリストを追加
+
+        /* 好きなラーメンのキーのリストにユーザー名(年齢)の文字列を追加 */
+        userList.stream()
+                .sorted((a,b) -> b.getAge() - a.getAge()) // todo: 年齢でソート
+                //  ramenMap.get(user.getFavoriteRamenName()).add  ← ramenMap.put(ramen.getName(), ・・・）　
+                //  ラーメンのキーのリストにユーザー名(年齢)の文字列を追加できる処理してるっぽいけど動きに違和感を感じる
+                .forEach(user -> ramenMap.get(user.getFavoriteRamenName()).add(user.getName() + "("
+                 + user.getAge()+ ")")); // todo: ユーザ名(年齢)に変更
+
+        return ramenMap;
     }
 
-
     @GetMapping("/liveWithRamen")
-//    public List<UserLiveWithRamenResponse> liveWithRamen(){
     public List<String> liveWithRamen(){
         /* todo: 実装してください */
-//        List<UserLiveWithRamenResponse> userResponseList = userService.findliveWithRamenAll();
-        List<UserResponse> userResponseList = userService.findAll();
-        List<String> userResponseList2=  userResponseList.stream()
-            .map(UserResponse -> UserResponse.getLiveInCityName() + "に住んでいる"
-                    + UserResponse.getName() + "さんは地元の" +
-                    UserResponse.getFavoriteRamenName() + "ラーメンが好きです。")
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
+
+        return userList.stream()
+                .sorted(Comparator.comparing(UserResponse::getAge)) // todo: 年齢でソート
+                .filter(user -> user.getLiveInCityName().equals(
+                        ramenList.stream().filter(ramen -> ramen.getName()
+                                .equals(user.getFavoriteRamenName()))
+                                .findFirst()
+                                .get()
+                                .getPlaceName() // userの好きなラーメンの所在地を取得
+                ))  // 好きなラーメンの所在地とユーザの居住地が同じものを抽出
+                .map(user -> user.getLiveInCityName() + "に住んでいる"
+                        + user.getName() + "さんは地元の" +
+                        user.getFavoriteRamenName() + "ラーメンが好きです。")  // todo: "%sに住んでいる%sさんは地元の%sラーメンが好きです。"に変更
                 .toList();
-        return userResponseList2;
     }
 }
