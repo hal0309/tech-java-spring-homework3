@@ -3,7 +3,7 @@
 SpringBoot と SQL を使って、データベースを操作する演習です。
 
 ## 2024年4月21日 課題
-今回は、serviceに対するテストクラスの作成と、streamの再演習です。
+今回は、streamの再演習です。
 
 ### 1. Streamの演習
 `UserController`内に以下のエンドポイントを作成してください。
