@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserRequest find(int id);
+    UserResponse find(int id);
 
     List<UserResponse> findAll();
 
