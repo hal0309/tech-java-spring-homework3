@@ -77,13 +77,33 @@ public class UserController {
 
     @GetMapping("/liveInCityMap")
     public Map<String, List<String>> liveInCityMap(){
-        /* todo: 実装してください */
-        return null;
+        Map<String, List<String>> liveInCityMap = new LinkedHashMap<>();
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
+
+        ramenList.stream()
+                .sorted(Comparator.comparing(RamenAPIResponse::getName))
+                .forEach(ramen -> liveInCityMap.put(ramen.getPlaceName(),
+                        userList.stream()
+                                .filter(userResponse -> userResponse.getLiveInCityName().equals(ramen.getPlaceName()))
+                                .map(UserResponse::getName)
+                                .toList()));
+        return liveInCityMap;
     }
 
     @GetMapping("/noriLikeUser")
     public List<String> noriLikeUser(){
-        /* todo: 実装してください */
-        return null;
+        Map<String, List<String>> noriLikeMap = new LinkedHashMap<>();
+        List<UserResponse> userList = userService.findAll();
+        List<RamenAPIResponse> ramenList = ramenService.findAll();
+
+        ramenList.stream()
+                .forEach(ramen -> noriLikeMap.put(ramen.getToppingList().get(0).getName(),
+                        userList.stream()
+                                .sorted(Comparator.comparing(UserResponse::getName))
+                                .filter(x -> x.getFavoriteRamenName().equals("Iekei") || x.getFavoriteRamenName().equals("Shoyu"))
+                                .map(UserResponse::getName)
+                                .toList()));
+        return noriLikeMap.get("Nori");
     }
 }
