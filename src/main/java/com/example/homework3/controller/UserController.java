@@ -89,6 +89,7 @@ public class UserController {
                     liveInCityMap.get(user.getLiveInCityName()).add(user.getName());
                 });
         return liveInCityMap;
+
     }
 
     @GetMapping("/noriLikeUser")
@@ -100,5 +101,6 @@ public class UserController {
                 .sorted(Comparator.comparing(UserResponse::getName))
                 .map(user -> user.getName())
                 .toList();
+
     }
 }
