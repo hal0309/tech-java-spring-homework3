@@ -1,5 +1,6 @@
 package com.example.homework3.repository;
 
+import com.example.homework3.entity.RamenAPIResponse;
 import com.example.homework3.entity.RamenRequest;
 import com.example.homework3.entity.RamenDBResponse;
 import org.springframework.data.jdbc.repository.query.Modifying;
@@ -11,8 +12,11 @@ import java.util.List;
 
 public interface RamenRepository extends Repository<RamenRequest, Integer> {
 
+//    @Query(value = "SELECT * FROM ramen_table WHERE id = :id")
+//    RamenRequest find(@Param("id") int id);
+
     @Query(value = "SELECT * FROM ramen_table WHERE id = :id")
-    RamenRequest find(@Param("id") int id);
+    RamenAPIResponse find(@Param("id") int id);
 
 //    @Query(value = "SELECT ramen_table.id, ramen_table.name, price, place_table.name AS place_name FROM ramen_table " +
 //            "LEFT JOIN place_table ON ramen_table.place_id = place_table.id")

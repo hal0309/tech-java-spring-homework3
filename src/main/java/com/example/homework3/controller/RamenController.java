@@ -16,8 +16,13 @@ public class RamenController {
     @Autowired
     RamenService ramenService;
 
+//    @GetMapping("/find")
+//    public RamenRequest find(@RequestBody int id){
+//        return ramenService.find(id);
+//    }
+
     @GetMapping("/find")
-    public RamenRequest find(@RequestBody int id){
+    public RamenAPIResponse find(@RequestBody int id){
         return ramenService.find(id);
     }
 

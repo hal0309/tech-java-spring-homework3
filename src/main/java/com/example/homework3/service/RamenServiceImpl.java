@@ -18,8 +18,13 @@ public class RamenServiceImpl implements RamenService {
     @Autowired
     ToppingRepository toppingRepository;
 
+//    @Override
+//    public RamenRequest find(int id) {
+//        return ramenRepository.find(id);
+//    }
+
     @Override
-    public RamenRequest find(int id) {
+    public RamenAPIResponse find(int id) {
         return ramenRepository.find(id);
     }
 
