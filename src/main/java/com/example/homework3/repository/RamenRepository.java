@@ -16,7 +16,7 @@ public interface RamenRepository extends Repository<RamenRequest, Integer> {
 //    RamenRequest find(@Param("id") int id);
 
     @Query(value = "SELECT * FROM ramen_table WHERE id = :id")
-    RamenAPIResponse find(@Param("id") int id);
+    RamenDBResponse find(@Param("id") int id);
 
 //    @Query(value = "SELECT ramen_table.id, ramen_table.name, price, place_table.name AS place_name FROM ramen_table " +
 //            "LEFT JOIN place_table ON ramen_table.place_id = place_table.id")

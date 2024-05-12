@@ -1,9 +1,11 @@
 package com.example.homework3.service;
 
 import com.example.homework3.entity.RamenAPIResponse;
+import com.example.homework3.entity.RamenDBResponse;
 import com.example.homework3.entity.ToppingResponse;
 import com.example.homework3.entity.UserResponse;
 import com.example.homework3.repository.RamenRepository;
+import com.example.homework3.repository.ToppingRepository;
 import com.example.homework3.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,9 @@ class RamenServiceImplTest {
     @Mock /* mockとして使用するクラス(テスト対象では無いクラス) */
     private RamenRepository ramenRepository;
 
+    @Mock /* mockとして使用するクラス(テスト対象では無いクラス) */
+    private ToppingRepository toppingRepository;
+
     @InjectMocks /* mockを注入されるクラス */
     private RamenServiceImpl ramenServiceImpl;
 
@@ -41,7 +46,8 @@ class RamenServiceImplTest {
     @Test
     void findの動作を確認() {
         /* mockの動作を定義 */
-        when(ramenRepository.find(1)).thenReturn(new RamenAPIResponse(1, "ramen1", 100, "place1",toppingList));
+        when(ramenRepository.find(1)).thenReturn(new RamenDBResponse(1, "ramen1", 100, "place1"));
+        when(toppingRepository.findByRamenId(1)).thenReturn(toppingList);
 
         /* テストの実行 */
         RamenAPIResponse ramenAPIResponse = ramenServiceImpl.find(1);
@@ -56,8 +62,10 @@ class RamenServiceImplTest {
     @Test
     void findAllテスト() {
         /* mockの動作を定義 */
-        when(ramenRepository.find(1)).thenReturn(new RamenAPIResponse(1, "ramen1", 100, "place1",toppingList));
-        when(ramenRepository.find(2)).thenReturn(new RamenAPIResponse(2, "ramen2", 200, "place2",toppingList2));
+        when(ramenRepository.find(1)).thenReturn(new RamenDBResponse(1, "ramen1", 100, "place1"));
+        when(toppingRepository.findByRamenId(1)).thenReturn(toppingList);
+        when(ramenRepository.find(2)).thenReturn(new RamenDBResponse(2, "ramen2", 200, "place2"));
+        when(toppingRepository.findByRamenId(2)).thenReturn(toppingList2);
 
         /* テストの実行 */
         RamenAPIResponse ramenAPIResponse = ramenServiceImpl.find(1);
