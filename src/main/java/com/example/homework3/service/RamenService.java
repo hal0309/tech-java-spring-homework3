@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface RamenService {
 
-    RamenRequest find(int id);
+//    RamenRequest find(int id);
+
+    RamenAPIResponse find(int id);
 
     List<RamenAPIResponse> findAll();
 
