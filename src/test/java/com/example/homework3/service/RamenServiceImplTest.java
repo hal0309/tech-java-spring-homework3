@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.Answer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+import static net.bytebuddy.matcher.ElementMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -43,6 +43,12 @@ class RamenServiceImplTest {
     List<ToppingResponse> toppingList = Arrays.asList(toppingResponse,toppingResponse2);
     List<ToppingResponse> toppingList2 = Arrays.asList(toppingResponse,toppingResponse2,toppingResponse3);
 
+    RamenDBResponse ramenDBResponse = new RamenDBResponse(1, "ramen1", 100, "place1");
+
+    RamenAPIResponse ramenAPIResponse = new RamenAPIResponse(1, "ramen1", 100, "place1",toppingList);
+    List<RamenAPIResponse> ramenAPIResponseList = new ArrayList<>(Collections.singleton(ramenAPIResponse));
+//    ramenAPIResponseList.add
+
     @Test
     void findの動作を確認() {
         /* mockの動作を定義 */
@@ -62,19 +68,20 @@ class RamenServiceImplTest {
     @Test
     void findAllテスト() {
         /* mockの動作を定義 */
-        when(ramenRepository.find(1)).thenReturn(new RamenDBResponse(1, "ramen1", 100, "place1"));
+        //List<RamenAPIResponse> ramenAPIResponseListの値が設定できない
+        when(ramenRepository.findAll()).thenReturn(new ArrayList<>());
         when(toppingRepository.findByRamenId(1)).thenReturn(toppingList);
-        when(ramenRepository.find(2)).thenReturn(new RamenDBResponse(2, "ramen2", 200, "place2"));
-        when(toppingRepository.findByRamenId(2)).thenReturn(toppingList2);
+//        when(ramenRepository.findAll()).thenReturn((List<RamenDBResponse>) new RamenAPIResponse(2, "ramen2", 200, "place2",toppingList2));
+//        when(toppingRepository.findByRamenId(2)).thenReturn(toppingList2);
 
         /* テストの実行 */
-        RamenAPIResponse ramenAPIResponse = ramenServiceImpl.find(1);
-        assertEquals(1, ramenAPIResponse.getId());
-        assertEquals("ramen1", ramenAPIResponse.getName());
-        assertEquals(100, ramenAPIResponse.getPrice());
-        assertEquals("place1", ramenAPIResponse.getPlaceName());
-        assertEquals("topping1", ramenAPIResponse.getToppingList().get(0).getName());
-        assertEquals("topping2", ramenAPIResponse.getToppingList().get(1).getName());
+        List<RamenAPIResponse> ramenAPIResponse = ramenServiceImpl.findAll();
+        assertEquals(1, ramenAPIResponse.get(0).getId());
+        assertEquals("ramen1", ramenAPIResponse.get(0).getName());
+        assertEquals(100, ramenAPIResponse.get(0).getPrice());
+        assertEquals("place1", ramenAPIResponse.get(0).getPlaceName());
+        assertEquals("topping1", ramenAPIResponse.get(0).getToppingList().get(0).getName());
+        assertEquals("topping2", ramenAPIResponse.get(0).getToppingList().get(1).getName());
         RamenAPIResponse ramenAPIResponse2 = ramenServiceImpl.find(2);
         assertEquals(2, ramenAPIResponse2.getId());
         assertEquals("ramen2", ramenAPIResponse2.getName());
